@@ -27,6 +27,10 @@ public class AccountsService {
 
   public void withdrawFromAccount(String accountFromId, String accountToId, BigDecimal amount)
   {
+    if(accountFromId.isBlank()||accountToId.isBlank())
+    {
+      throw new IllegalArgumentException("essential account information missing");
+    }
     Account accountFrom = accountsRepository.findById(accountFromId).orElseThrow();
     Account accountTo = accountsRepository.findById(accountToId).orElseThrow();
 

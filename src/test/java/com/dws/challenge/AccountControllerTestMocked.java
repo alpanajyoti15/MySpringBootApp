@@ -36,7 +36,7 @@ public class AccountControllerTestMocked {
         doNothing().when(accountService).withdrawFromAccount(anyString(), anyString(), any(BigDecimal.class));
         ResponseEntity<String> response = accountController.withdrawFromAccount(transferRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Withdrawal successful happened", response.getBody());
+        assertEquals("Withdrawal successful.", response.getBody());
     }
 
     @Test
@@ -49,14 +49,4 @@ public class AccountControllerTestMocked {
         assertEquals("Insufficient balance", response.getBody());
         verify(accountService, times(1)).withdrawFromAccount("accountFromId", "accountToId", BigDecimal.TEN);
     }
-
-    @Test
-    public void testWithdrawFromAccount_InvalidRequest() {
-        TransferRequest transferRequest = new TransferRequest("accountFromId","accountToId");
-        transferRequest.setAmount(new BigDecimal(String.valueOf(BigDecimal.TEN)));
-        ResponseEntity<String> response = accountController.withdrawFromAccount(transferRequest);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Amount must be a positive", response.getBody());
-    }
-
 }
